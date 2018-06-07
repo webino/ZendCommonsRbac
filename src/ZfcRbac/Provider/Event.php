@@ -5,8 +5,12 @@ namespace ZfcRbac\Provider;
 use Zend\EventManager\Event as BaseEvent;
 use Zend\Permissions\Rbac\Rbac;
 
+/**
+ * Class Event
+ */
 class Event extends BaseEvent
 {
+    const EVENT_LOAD_IDENTITY    = 'loadIdentity';
     // Primarily for lazy-loading roles/permission
     const EVENT_HAS_ROLE         = 'hasRole';
     const EVENT_IS_GRANTED       = 'isGranted';

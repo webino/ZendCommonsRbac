@@ -254,7 +254,14 @@ class Rbac implements EventManagerAwareInterface
     public function getIdentity()
     {
         if (null === $this->identity) {
-            $this->setIdentity();
+
+            // load identity by event
+            $event = new Event;
+            $event->setRbac($this->getRbac());
+            $this->getEventManager()->trigger(Event::EVENT_LOAD_IDENTITY, $event);
+
+            // last resort
+            $this->identity or $this->setIdentity();
         }
 
         return $this->identity;
@@ -296,15 +303,8 @@ class Rbac implements EventManagerAwareInterface
             $event = new Event;
             $event->setRbac($this->rbac);
 
-            try {
-                $this->getEventManager()->trigger(Event::EVENT_LOAD_ROLES, $event);
-                $this->getEventManager()->trigger(Event::EVENT_LOAD_PERMISSIONS, $event);
-            } catch (Exception\InvalidArgumentException $ex) {
-                $app = $e->getTarget();
-                $mvcEvent->setError($rbacService::ERROR_RUNTIME)
-                    ->setParam('message', 'Roles or Permissions configuration error');
-                $app->getEventManager()->trigger('dispatch.error', $mvcEvent);
-            }
+            $this->getEventManager()->trigger(Event::EVENT_LOAD_ROLES, $event);
+            $this->getEventManager()->trigger(Event::EVENT_LOAD_PERMISSIONS, $event);
         }
         return $this->rbac;
     }
