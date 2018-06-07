@@ -1,6 +1,6 @@
 {
-  "name": "zf-commons/zfc-rbac",
-  "description": "Zend Framework 2 Module that provides a layer of features of Zend\\Permissions\\Rbac",
+  "name": "webino/zend-rbac",
+  "description": "Zend Framework module that provides a layer of features for Zend\\Permissions\\Rbac",
   "type": "library",
   "license": "MIT",
   "keywords": [
@@ -26,6 +26,9 @@
       "email": "jmleroux.pro@gmail.com"
     }
   ],
+  "replace": {
+    "zf-commons/zfc-rbac": "self.version"
+  },
   "require": {
     "php": "~5.6 || ~7.0",
     "zendframework/zend-config": "~2.2 || ^3.1",
